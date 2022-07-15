@@ -62,14 +62,14 @@ public class AccountServiceImpl implements AccountService {
         Bank bank = findBankById(bankId);
         int newTotal = bank.getTotalTransfers() +1;
         bank.setTotalTransfers(newTotal);
-        bankRepository.update(bank);
+        bankRepository.save(bank);
 
         Account origin = findById(accountOrigin);
         origin.withdraw(amount);
-        accountRepository.update(origin);
+        accountRepository.save(origin);
 
         Account destiny = findById(accountDestiny);
         destiny.deposit(amount);
-        accountRepository.update(destiny);
+        accountRepository.save(destiny);
     }
 }

@@ -52,10 +52,10 @@ class SpringbootApplicationTests {
 
 		verify(accountRepository, times(3)).findById(1L);
 		verify(accountRepository, times(3)).findById(2L);
-		verify(accountRepository, times(2)).update(any(Account.class));
+		verify(accountRepository, times(2)).save(any(Account.class));
 
 		verify(bankRepository, times(1)).findById(1L);
-		verify(bankRepository).update(any(Bank.class));
+		verify(bankRepository).save(any(Bank.class));
 	}
 
 	@Test
