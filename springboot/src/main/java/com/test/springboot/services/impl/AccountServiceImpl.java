@@ -6,7 +6,9 @@ import com.test.springboot.repositories.AccountRepository;
 import com.test.springboot.repositories.BankRepository;
 import com.test.springboot.services.AccountService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,6 +23,13 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public List<Account> findAll() {
+        return accountRepository.findAll();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public Account findById(Long id) {
         Optional<Account> account = accountRepository.findById(id);
         if (account.isEmpty()) {
@@ -31,6 +40,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Bank findBankById(Long bankId) {
         Optional<Bank> bank = bankRepository.findById(bankId);
         if (bank.isEmpty()) {
@@ -41,6 +51,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public int getTotalTransfers(Long bankId) {
         Bank bank = findBankById(bankId);
 
@@ -48,6 +59,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Double getBalance(Long accountId) {
         Optional<Account> account = accountRepository.findById(accountId);
         if (account.isEmpty()) {
@@ -58,6 +70,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    @Transactional
     public void makeTransfer(Long accountOrigin, Long accountDestiny, Double amount, Long bankId) {
         Bank bank = findBankById(bankId);
         int newTotal = bank.getTotalTransfers() +1;
@@ -71,5 +84,11 @@ public class AccountServiceImpl implements AccountService {
         Account destiny = findById(accountDestiny);
         destiny.deposit(amount);
         accountRepository.save(destiny);
+    }
+
+    @Override
+    @Transactional
+    public Account save(Account account) {
+        return accountRepository.save(account);
     }
 }
