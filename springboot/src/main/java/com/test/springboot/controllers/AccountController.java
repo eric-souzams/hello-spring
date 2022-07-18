@@ -53,4 +53,10 @@ public class AccountController {
         return ResponseEntity.ok(response);
     }
 
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable("id") Long id) {
+        accountService.deleteById(id);
+    }
+
 }

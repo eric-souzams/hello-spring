@@ -14,5 +14,6 @@ public interface AccountService {
     Double getBalance(Long accountId);
     void makeTransfer(Long accountOrigin, Long accountDestiny, Double amount, Long bankId);
     Account save(Account account);
+    void deleteById(Long id);
 
 }
